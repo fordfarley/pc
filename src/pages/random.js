@@ -32,7 +32,7 @@ const FlipCardInner = styled.div`
   text-align: center;
   transition: transform 1s;
   transform-style: preserve-3d;
-  transform:${props => props.show ? 'rotateY(180deg)' : null};
+  transform: ${(props) => (props.show ? "rotateY(180deg)" : null)};
 `;
 
 const CardFront = styled.div`
@@ -118,42 +118,116 @@ const BackTexture = styled(CardTexture)`
 
 const BackContent = styled.div`
   color: black;
-  z-index:10;
-  font-size:24px;
-  padding:30px;
+  z-index: 10;
+  font-size: 24px;
+  padding: 30px;
 `;
 
 const Button = styled.button`
-  border-radius:25px;
-  min-height:50px;
-  color:white;
-  background:linear-gradient(180deg, rgba(129,23,25,1) 0%, rgba(190,32,40,1) 100%);
-  font-size:24px;
-  min-width:300px;
+  border-radius: 25px;
+  min-height: 50px;
+  color: white;
+  background: linear-gradient(
+    180deg,
+    rgba(129, 23, 25, 1) 0%,
+    rgba(190, 32, 40, 1) 100%
+  );
+  font-size: 24px;
+  min-width: 300px;
   border: 0px;
-
 `;
+
+const Options = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 80%;
+`;
+
+const Option = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  padding: 0 10px;
+  height: 30px;
+  border-radius: 15px;
+  font-size: 12px;
+  background-color: ${(props) => (props.selected ? "darkred" : "gray")};
+  font-family: sans-serif;
+  color: white;
+  font-weight: ${(props) => (props.selected ? "bold" : null)};
+`;
+
+const optionsLabels = [
+  "All",
+  "Election",
+  "Questions",
+  "History",
+  "Expectations",
+];
 
 const random = () => {
   const [question, setQuestion] = useState("Click next to get your question");
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(null);
+  const [option, setOption] = useState(0);
 
-  const randomQuestion = () => {
-    setShow(false);
-    setTimeout(()=>{
-        const allQuestions = questions
+  const getQuestion = (questionOption) => {
+    let allQuestions = questions
       .concat(historic)
       .concat(expectations)
       .concat(election);
+    if (questionOption === 1) allQuestions = election;
+    if (questionOption === 2) allQuestions = questions;
+    if (questionOption === 3) allQuestions = historic;
+    if (questionOption === 4) allQuestions = expectations;
     const randomIndex = Math.floor(allQuestions.length * Math.random());
     setQuestion(allQuestions[randomIndex]);
-    setShow(true);
-    },1000);
-    
+  };
+
+  const randomQuestion = () => {
+    if (show === null) {
+      getQuestion(option);
+      setShow(true);
+    } else if (show) {
+      setShow(false);
+      setTimeout(() => {
+        getQuestion(option);
+      }, 1000);
+    } else {
+      setShow(true);
+    }
   };
 
   return (
     <Layout>
+      <Options>
+        {optionsLabels.map((elem, index) => {
+          return (
+            <Option
+              key={`option_${index}`}
+              onClick={() => {
+                setOption(index);
+                setTimeout(() => {
+                        getQuestion(index);
+                    }, 1000);
+                if(show){
+                    setShow(false)
+                    setTimeout(() => {
+                        getQuestion(index);
+                    }, 1000);
+                }else if(!show){
+                    getQuestion(index);
+                }
+              }}
+              selected={index === option}
+            >
+              {elem}
+            </Option>
+          );
+        })}
+      </Options>
       <FlipCard>
         <FlipCardInner show={show}>
           <CardFront onClick={randomQuestion}>
@@ -169,7 +243,7 @@ const random = () => {
           </CardBack>
         </FlipCardInner>
       </FlipCard>
-      <Button onClick={randomQuestion}>Next</Button>
+      {/* <Button onClick={randomQuestion}>Next</Button> */}
     </Layout>
   );
 };
