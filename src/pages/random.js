@@ -169,7 +169,7 @@ const random = () => {
           </CardBack>
         </FlipCardInner>
       </FlipCard>
-      <Button onClick={randomQuestion}>Next Question</Button>
+      <Button onClick={randomQuestion}>Next</Button>
     </Layout>
   );
 };
