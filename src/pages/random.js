@@ -1,164 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Image from "next/image";
+import { usePlayers } from "@/context/playersContext";
+import Button from "@/components/atoms/Button";
 import {
   questions,
   historic,
   expectations,
   election,
 } from "@/questions/questions";
+import {
+  Layout,
+  FlipCard,
+  FlipCardInner,
+  CardFront,
+  CardColor,
+  CardBack,
+  BackWhite,
+  BackTexture,
+  BackContent,
+  Options,
+  Option,
+} from "@/styles/random";
+import PlayerRow from "@/components/molecules/Player";
 
-const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
-  gap: 50px;
-`;
-
-const FlipCard = styled.div`
-  background-color: transparent;
-  width: 300px;
-  height: 500px;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
-`;
-
-const FlipCardInner = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 1s;
-  transform-style: preserve-3d;
-  transform: ${(props) => (props.show ? "rotateY(180deg)" : null)};
-`;
-
-const CardFront = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  border-radius: 30px;
-  background: linear-gradient(
-    45deg,
-    rgba(70, 11, 13, 1) 0%,
-    rgba(190, 32, 40, 1) 100%
-  );
-  background: linear-gradient(
-    45deg,
-    rgba(108, 12, 12, 1) 0%,
-    rgba(255, 73, 83, 1) 100%
-  );
-
-  position: absolute;
-  backface-visibility: hidden;
-`;
-
-const CardTexture = styled.div`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  min-height: 470px;
-  width: 270px;
-  border-radius: 15px;
-  background-image: url("/curveTexture.jpg");
-  background-size: cover;
-  mix-blend-mode: multiply;
-`;
-
-const CardColor = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 470px;
-  width: 270px;
-  border-radius: 15px;
-  background: linear-gradient(
-    45deg,
-    rgba(9, 10, 10, 1) 5%,
-    rgba(90, 45, 47, 1) 100%
-  );
-  img {
-    z-index: 0;
-  }
-`;
-
-const CardBack = styled(CardFront)`
-  background-color: white;
-  color: black;
-  transform: rotateY(180deg);
-  color: black;
-`;
-
-const BackWhite = styled.div`
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  border-radius: 15px;
-  min-height: 470px;
-  width: 270px;
-  background-color: white;
-`;
-
-const BackTexture = styled(CardTexture)`
-  width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  background-color: white;
-  background-image: url("/whiteTexture.jpg");
-  background-size: cover;
-  mix-blend-mode: multiply;
-`;
-
-const BackContent = styled.div`
-  color: black;
-  z-index: 10;
-  font-size: 24px;
-  padding: 30px;
-`;
-
-const Button = styled.button`
-  border-radius: 25px;
-  min-height: 50px;
-  color: white;
-  background: linear-gradient(
-    180deg,
-    rgba(129, 23, 25, 1) 0%,
-    rgba(190, 32, 40, 1) 100%
-  );
-  font-size: 24px;
-  min-width: 300px;
-  border: 0px;
-`;
-
-const Options = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  width: 80%;
-`;
-
-const Option = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 50px;
-  padding: 0 10px;
-  height: 30px;
-  border-radius: 15px;
-  font-size: 12px;
-  background-color: ${(props) => (props.selected ? "darkred" : "gray")};
-  font-family: sans-serif;
-  color: white;
-  font-weight: ${(props) => (props.selected ? "bold" : null)};
-`;
 
 const optionsLabels = [
   "All",
@@ -169,9 +33,18 @@ const optionsLabels = [
 ];
 
 const random = () => {
+  const { players, nextPlayer } = usePlayers();
   const [question, setQuestion] = useState("Click next to get your question");
   const [show, setShow] = useState(null);
   const [option, setOption] = useState(0);
+  const [activePlayer, setActivePlayer] = useState(null);
+  
+  useEffect(() => {
+    const next = nextPlayer()
+    setActivePlayer(next);
+    return () => {
+    };
+  }, []);
 
   const getQuestion = (questionOption) => {
     let allQuestions = questions
@@ -192,6 +65,7 @@ const random = () => {
       setShow(true);
     } else if (show) {
       setShow(false);
+      setActivePlayer(nextPlayer());
       setTimeout(() => {
         getQuestion(option);
       }, 1000);
@@ -202,7 +76,7 @@ const random = () => {
 
   return (
     <Layout>
-      <Options>
+      {/* <Options>
         {optionsLabels.map((elem, index) => {
           return (
             <Option
@@ -210,15 +84,15 @@ const random = () => {
               onClick={() => {
                 setOption(index);
                 setTimeout(() => {
-                        getQuestion(index);
-                    }, 1000);
-                if(show){
-                    setShow(false)
-                    setTimeout(() => {
-                        getQuestion(index);
-                    }, 1000);
-                }else if(!show){
+                  getQuestion(index);
+                }, 1000);
+                if (show) {
+                  setShow(false);
+                  setTimeout(() => {
                     getQuestion(index);
+                  }, 1000);
+                } else if (!show) {
+                  getQuestion(index);
                 }
               }}
               selected={index === option}
@@ -227,22 +101,21 @@ const random = () => {
             </Option>
           );
         })}
-      </Options>
+      </Options> */}
       <FlipCard>
         <FlipCardInner show={show}>
           <CardFront onClick={randomQuestion}>
-            <CardColor>
-              <CardTexture />
-              <Image src="/logo.png" width={200} height={194} />
-            </CardColor>
+            <CardColor />
           </CardFront>
           <CardBack onClick={randomQuestion}>
+          {/* <CardBack onClick={()=>{}}> */}
             <BackWhite />
             <BackTexture />
             <BackContent>{question}</BackContent>
           </CardBack>
         </FlipCardInner>
       </FlipCard>
+      {activePlayer!==null && <PlayerRow minimal player={players[activePlayer]} />}
       {/* <Button onClick={randomQuestion}>Next</Button> */}
     </Layout>
   );

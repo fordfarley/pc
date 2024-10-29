@@ -1,8 +1,10 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import Button from '@/components/atoms/Button'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,27 +15,36 @@ const Layout = styled.div`
   justify-content:center;
   width:100%;
   height:100vh;
+  gap: 10px;
+  padding:20px;
 `;
 
-const Button = styled.button`
-  border-radius:25px;
-  min-height:50px;
-  color:white;
-  background:linear-gradient(180deg, rgba(129,23,25,1) 0%, rgba(190,32,40,1) 100%);
-  font-size:24px;
-  min-width:300px;
-  border: 0px;
+// const Button = styled.button`
+//   border-radius:25px;
+//   min-height:50px;
+//   color:white;
+//   background:linear-gradient(180deg, rgba(129,23,25,1) 0%, rgba(190,32,40,1) 100%);
+//   font-size:24px;
+//   min-width:300px;
+//   border: 0px;
+//   cursor: pointer;
 
-`;
+// `;
 
 const Logo = styled.div`
   display:flex;
-  width:50%;
-  height:500px;
-  background-image:url("/logo.png");
+  width:350px;
+  height:350px;
+  background-image:url("/PC_logo1.png");
   background-size:contain;
   background-position:center;
-  background-repeat:no-repeat;  
+  background-repeat:no-repeat;
+  margin-bottom:10px;
+  
+  @media (min-width:840px){
+    width:350px;
+    height:350px;
+  }  
 `;
 
 export default function Home() {
@@ -47,9 +58,12 @@ export default function Home() {
       </Head>
       <Layout>
         <Logo />
-        <a href="/random"><Button>
+        <Link href="/random"><Button>
           Play
-        </Button></a>
+        </Button></Link>
+        <Link href="/addPlayers"><Button type="Secondary">
+          Add Players
+        </Button></Link>
 
         
 
