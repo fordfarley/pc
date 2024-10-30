@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Layout = styled.div`
   display: flex;
+  position:relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -118,6 +119,7 @@ export const BackContent = styled.div`
   z-index: 10;
   font-family: "Birthstone", cursive;
   font-size:32px;
+  line-height:30px;
   padding: 30px;
 `;
 
@@ -143,3 +145,68 @@ export const Option = styled.div`
   color: white;
   font-weight: ${(props) => (props.selected ? "bold" : null)};
 `;
+
+export const BottomPanel = styled.div`
+  width:102%;
+  height:100vh;
+  position:fixed;
+  /* background: url("/metalBrushed.jpg"), radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+  radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+  background-blend-mode: multiply; */
+  /* background-image: url('/goldTexture2.jpg'); */
+  background-size: cover;
+  background: url('/goldTexture2.jpg'), #00000065;
+  background-blend-mode:multiply;
+  box-shadow: 1px 4px 5px 4px rgba(255,255,255,0.55) inset;
+  /* border: 2px solid #926f34; */
+  /* top:calc(100vh - 100px); */
+  top:${({showPanel}) => (showPanel ? '50px' : 'calc(100vh - 80px)')};
+  border-radius: 25px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+
+  transition:all 0.5s ease-in-out;
+
+
+`;
+
+export const PlayerWrapper = styled.div`
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 50px;
+  min-height: 50px;
+  font-size: 32px;
+  min-width: 300px;
+  overflow: hidden;
+  z-index: 1;
+  background: "transparent";
+  border: 3px solid #590725;
+`;
+
+export const PlayerContainer = styled.div` 
+  width:200px;
+  opacity:${({showPlayer}) => (showPlayer ? '1' : '0')};
+  transition: all 0.5s ease-in-out;
+`;
+
+export const MediumButton = styled.div`
+  position:absolute;
+  left:-3px;
+  color:white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  min-height: 70px;
+  width:60px;
+  font-size: 32px;
+  border: 3px solid #590725;
+  background: linear-gradient(180deg,#ff4564 0%, #7a0729 60%);
+`;
+

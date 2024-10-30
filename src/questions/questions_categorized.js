@@ -1,4 +1,4 @@
-export const objElection = [
+const objElection = [
   {
     text: { es: "¿Hacer o que te hagan?", en: "Give or receive?" },
     level: 1,
@@ -136,7 +136,7 @@ export const objElection = [
   },
 ];
 
-export const objQuestions = [
+const objQuestions = [
   {
     text: {
       es: "¿Cuál es la parte más sensible de tu cuerpo?",
@@ -505,7 +505,7 @@ export const objQuestions = [
   },
 ];
 
-export const objHistoric = [
+const objHistoric = [
   {
     text: {
       es: "¿Has mantenido relaciones en un sitio público?",
@@ -652,108 +652,111 @@ export const objHistoric = [
   },
 ];
 
-export const objSwinger = [
-    {
-        text: {
-          es: "¿Qué es lo más te gustó de nosotros cuando nos conocimos?",
-          en: "What did you like most about us when we met?",
-        },
-        level: 2,
-        category: "Swinger",
-        image: null,
+const objSwinger = [
+  {
+    text: {
+      es: "¿Qué es lo más te gustó de nosotros cuando nos conocimos?",
+      en: "What did you like most about us when we met?",
     },
-    {
-        text: {
-          es: "¿Cómo crees que es en la cama cada uno de la mesa?",
-          en: "What do you think everyone at the table is like in bed?",
-        },
-        level: 2,
-        category: "Swinger",
-        image: null,
+    level: 2,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿Cómo crees que es en la cama cada uno de la mesa?",
+      en: "What do you think everyone at the table is like in bed?",
     },
-    {
-        text: {
-          es: "¿Te has masturbado pensando en esta noche?",
-          en: "Have you masturbated thinking about tonight?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 2,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿Te has masturbado pensando en esta noche?",
+      en: "Have you masturbated thinking about tonight?",
     },
-    {
-        text: {
-          es: "¿Qué quieres hacer esta noche y es imprescindible?",
-          en: "What do you want to do tonight and is it essential?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿Qué quieres hacer esta noche y es imprescindible?",
+      en: "What do you want to do tonight and is it essential?",
     },
-    {
-        text: {
-          es: "Cuando te has imaginado esta noche, ¿qué imagen te viene a la cabeza?",
-          en: "When you imagine tonight, what image comes to mind?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "Cuando te has imaginado esta noche, ¿qué imagen te viene a la cabeza?",
+      en: "When you imagine tonight, what image comes to mind?",
     },
-    {
-        text: {
-          es: "¿Hay algo que te preocupe o te asuste esta noche?",
-          en: "Is there anything worrying or frightening you tonight?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿Hay algo que te preocupe o te asuste esta noche?",
+      en: "Is there anything worrying or frightening you tonight?",
     },
-    {
-        text: {
-          es: "¿Cuál es la mejor experiencia swinger que has tenido? ¿Qué es lo que más recuerdas de ella?",
-          en: "What's the best swinger experience you've ever had? What do you remember most about it?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿Cuál es la mejor experiencia swinger que has tenido? ¿Qué es lo que más recuerdas de ella?",
+      en: "What's the best swinger experience you've ever had? What do you remember most about it?",
     },
-    {
-        text: {
-          es: "¿Hay alguna experiencia swinger que quieras probar y no hayas probado aún?",
-          en: "Are there any swinger experiences you want to try that you haven't tried yet?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿Hay alguna experiencia swinger que quieras probar y no hayas probado aún?",
+      en: "Are there any swinger experiences you want to try that you haven't tried yet?",
     },
-    {
-        text: {
-          es: "Tras una experiencia, ¿qué es lo que más te excita recordar?",
-          en: "After an experience, what excites you the most to remember?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "Tras una experiencia, ¿qué es lo que más te excita recordar?",
+      en: "After an experience, what excites you the most to remember?",
     },
-    {
-        text: {
-          es: "¿qué es lo que más te excita de tu pareja cuando tenéis una experiencia swinger?",
-          en: "What excites you most about your partner when you have a swinger experience?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿qué es lo que más te excita de tu pareja cuando tenéis una experiencia swinger?",
+      en: "What excites you most about your partner when you have a swinger experience?",
     },
-    {
-        text: {
-          es: "¿Habéis hablado de esta noche mientras practicábais sexo?",
-          en: "Did you guys talk about tonight while you were having sex?",
-        },
-        level: 3,
-        category: "Swinger",
-        image: null,
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+  {
+    text: {
+      es: "¿Habéis hablado de esta noche mientras practicábais sexo?",
+      en: "Did you guys talk about tonight while you were having sex?",
     },
-]
+    level: 3,
+    category: "Swinger",
+    image: null,
+  },
+];
 
+const objBasic = objElection
+  .concat(objQuestions)
+  .concat(objHistoric)
+  .concat(objSwinger);
 
-
-
+export default objBasic;

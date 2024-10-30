@@ -5,7 +5,29 @@ const PlayersContext = createContext();
 export const PlayersProvider = ({ children }) => {
   const [players, setPlayers] = useState([]);
   const [couples, setCouples] = useState(1);
-  const [active, setActive] = useState(null);
+  const [active, setActive] = useState(0);
+  const [cardIndex, setCardIndex] = useState(0);
+
+  const editPlayers = (newPlayers) =>{
+    setPlayers(newPlayers);
+    localStorage.setItem('players',JSON.stringify(newPlayers));
+  }
+
+  const recoverPlayers = () =>{
+    const savedPlayers = JSON.parse(localStorage.getItem('players'));
+    const activeSavedPlayer = localStorage.getItem('activePlayer');
+    if(savedPlayers) setPlayers(savedPlayers);
+    if(activeSavedPlayer) setActive(parseInt(activeSavedPlayer));
+  }
+
+  const editActive = (newActive) =>{
+    setActive(newActive);
+    localStorage.setItem('activePlayer', newActive);
+  }
+
+  useEffect(() => {
+    recoverPlayers();
+  }, []);
 
   const addPlayer = ({
     id,
@@ -28,13 +50,8 @@ export const PlayersProvider = ({ children }) => {
         coupleNumber: null,
       },
     ];
-    setPlayers(newPlayers);
-    localStorage.setItem('players',JSON.stringify(newPlayers));
+    editPlayers(newPlayers);
   };
-
-  useEffect(() => {
-    recoverPlayers();
-  }, []);
 
   const deletePlayer = (deleteId) => {
     const index = players.findIndex((elem) => elem.id === deleteId);
@@ -48,14 +65,12 @@ export const PlayersProvider = ({ children }) => {
     newPlayers.splice(index, 1);
 
     if (index !== -1){
-      setPlayers(newPlayers)
-      localStorage.setItem('players',JSON.stringify(newPlayers));
+      editPlayers(newPlayers);
     };
   };
 
   const deletePlayers = () => {
-    setPlayers([]);
-    localStorage.setItem('players',JSON.stringify([]));
+    editPlayers([]);
     setCouples(1);
   };
 
@@ -80,35 +95,37 @@ export const PlayersProvider = ({ children }) => {
       }
     });
 
-    setPlayers(newPlayers);
-    localStorage.setItem('players',JSON.stringify(newPlayers));
+    editPlayers(newPlayers);
     setCouples(couples + 1);
   };
+
+  const nextCardIndex = () =>{
+    setCardIndex(cardIndex+1)
+  }
 
   const nextPlayer = () => {
     if (players.length === 0) return null;
     if (active === null) {
-      setActive(0);
+      editActive(0);
       return 0;
     } else if (active === players.length - 1) {
-      setActive(0);
+      editActive(0);
       return 0;
     } else {
       const newActive = active + 1;
-      setActive(newActive);
+      editActive(newActive);
       return newActive;
     }
   };
 
-  const recoverPlayers = () =>{
-    const savedPlayers = JSON.parse(localStorage.getItem('players'));
-    if(savedPlayers) setPlayers(savedPlayers);
-  }
 
   return (
     <PlayersContext.Provider
       value={{
         players,
+        activePlayer: active,
+        cardIndex,
+        nextCardIndex,
         addPlayer,
         deletePlayer,
         deletePlayers,

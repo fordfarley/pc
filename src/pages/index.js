@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Button from '@/components/atoms/Button'
+import { getShuffleBasic } from '@/utils/shuffle'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,22 +20,10 @@ const Layout = styled.div`
   padding:20px;
 `;
 
-// const Button = styled.button`
-//   border-radius:25px;
-//   min-height:50px;
-//   color:white;
-//   background:linear-gradient(180deg, rgba(129,23,25,1) 0%, rgba(190,32,40,1) 100%);
-//   font-size:24px;
-//   min-width:300px;
-//   border: 0px;
-//   cursor: pointer;
-
-// `;
-
 const Logo = styled.div`
   display:flex;
-  width:350px;
-  height:350px;
+  width:310px;
+  height:310px;
   background-image:url("/PC_logo1.png");
   background-size:contain;
   background-position:center;
@@ -47,7 +36,10 @@ const Logo = styled.div`
   }  
 `;
 
+
+
 export default function Home() {
+  
   return (
     <>
       <Head>
@@ -58,7 +50,7 @@ export default function Home() {
       </Head>
       <Layout>
         <Logo />
-        <Link href="/random"><Button>
+        <Link href="/random"><Button onClick={()=>{getShuffleBasic()}}>
           Play
         </Button></Link>
         <Link href="/addPlayers"><Button type="Secondary">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useRouter } from "next/router";
 import { usePlayers } from "@/context/playersContext";
+import { IoCaretBackOutline } from "react-icons/io5";
 import Button from "@/components/atoms/Button";
 import {
   questions,
@@ -8,6 +9,7 @@ import {
   expectations,
   election,
 } from "@/questions/questions";
+import { getQuestionText } from "@/utils/questions";
 import {
   Layout,
   FlipCard,
@@ -20,9 +22,12 @@ import {
   BackContent,
   Options,
   Option,
+  BottomPanel,
+  PlayerWrapper,
+  PlayerContainer,
+  MediumButton,
 } from "@/styles/random";
 import PlayerRow from "@/components/molecules/Player";
-
 
 const optionsLabels = [
   "All",
@@ -33,41 +38,54 @@ const optionsLabels = [
 ];
 
 const random = () => {
-  const { players, nextPlayer } = usePlayers();
+  const router = useRouter();
+  const { players, cardIndex, nextPlayer, nextCardIndex, activePlayer } =
+    usePlayers();
   const [question, setQuestion] = useState("Click next to get your question");
   const [show, setShow] = useState(null);
   const [option, setOption] = useState(0);
-  const [activePlayer, setActivePlayer] = useState(null);
-  
+  const [showPanel, setShowPanel] = useState(false);
+  const [showPlayer, setShowPlayer] = useState(false);
+
   useEffect(() => {
-    const next = nextPlayer()
-    setActivePlayer(next);
-    return () => {
-    };
+    setTimeout(() => {
+      setShowPlayer(true);
+    }, 300);
+    
+    return () => {};
   }, []);
 
-  const getQuestion = (questionOption) => {
-    let allQuestions = questions
-      .concat(historic)
-      .concat(expectations)
-      .concat(election);
-    if (questionOption === 1) allQuestions = election;
-    if (questionOption === 2) allQuestions = questions;
-    if (questionOption === 3) allQuestions = historic;
-    if (questionOption === 4) allQuestions = expectations;
-    const randomIndex = Math.floor(allQuestions.length * Math.random());
-    setQuestion(allQuestions[randomIndex]);
+  // const getQuestion = (questionOption) => {
+  //   let allQuestions = questions
+  //     .concat(historic)
+  //     .concat(expectations)
+  //     .concat(election);
+  //   if (questionOption === 1) allQuestions = election;
+  //   if (questionOption === 2) allQuestions = questions;
+  //   if (questionOption === 3) allQuestions = historic;
+  //   if (questionOption === 4) allQuestions = expectations;
+  //   const randomIndex = Math.floor(allQuestions.length * Math.random());
+  //   setQuestion(allQuestions[randomIndex]);
+  // };
+  const togglePanel = () => {
+    setShowPanel(!showPanel);
   };
 
   const randomQuestion = () => {
     if (show === null) {
-      getQuestion(option);
+      const questionText = getQuestionText(cardIndex, players[activePlayer]);
+      setQuestion(questionText);
+      nextCardIndex();
       setShow(true);
     } else if (show) {
       setShow(false);
-      setActivePlayer(nextPlayer());
+      setShowPlayer(false)
+      nextCardIndex();
       setTimeout(() => {
-        getQuestion(option);
+        const questionText = getQuestionText(cardIndex, players[activePlayer]);
+        setQuestion(questionText);
+        nextPlayer();
+        setShowPlayer(true);
       }, 1000);
     } else {
       setShow(true);
@@ -108,15 +126,27 @@ const random = () => {
             <CardColor />
           </CardFront>
           <CardBack onClick={randomQuestion}>
-          {/* <CardBack onClick={()=>{}}> */}
             <BackWhite />
             <BackTexture />
             <BackContent>{question}</BackContent>
           </CardBack>
         </FlipCardInner>
       </FlipCard>
-      {activePlayer!==null && <PlayerRow minimal player={players[activePlayer]} />}
-      {/* <Button onClick={randomQuestion}>Next</Button> */}
+
+      {activePlayer !== null && players?.length > 0 && (
+        <PlayerWrapper>
+          <MediumButton
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            <IoCaretBackOutline size={30} />
+          </MediumButton>
+          <PlayerContainer showPlayer={showPlayer}>
+            <PlayerRow minimal player={players[activePlayer]} />
+          </PlayerContainer>
+        </PlayerWrapper>
+      )}
     </Layout>
   );
 };
